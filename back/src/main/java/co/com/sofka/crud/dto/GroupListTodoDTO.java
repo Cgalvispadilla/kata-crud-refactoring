@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.util.List;
 @Data
-public class GroupListTodoDTO {
+public class GroupListTodoDTO extends TodoDTO {
     private Long id;
     private String name;
     private List<Todo> todoList;
