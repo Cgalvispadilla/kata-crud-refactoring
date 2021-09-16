@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import Store from "../../Providers/StoreProvider";
+import { Store } from "../../Store/Store";
 const HOST_API = "http://localhost:8080/api";
 const List = () => {
   const {
