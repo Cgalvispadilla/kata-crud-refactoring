@@ -1,7 +1,9 @@
 package co.com.sofka.crud.services;
 
 import co.com.sofka.crud.dto.GroupListTodoDTO;
+import org.springframework.stereotype.Service;
 
+@Service
 public class GroupListTodo implements InterfaceServiceTodo<GroupListTodoDTO>{
     @Override
     public Iterable<GroupListTodoDTO> list() {
