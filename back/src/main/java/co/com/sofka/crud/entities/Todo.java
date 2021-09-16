@@ -11,14 +11,14 @@ public class Todo {
     private boolean completed;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="group_list_id")
-    private GroupListTodo groupListId;
+    private ListTodo groupListId;
 
 
-    public GroupListTodo getGroupListId() {
+    public ListTodo getGroupListId() {
         return groupListId;
     }
 
-    public void setGroupListId(GroupListTodo groupListId) {
+    public void setGroupListId(ListTodo groupListId) {
         this.groupListId = groupListId;
     }
 

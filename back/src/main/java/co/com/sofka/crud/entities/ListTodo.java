@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @Entity
-public class GroupListTodo {
+public class ListTodo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
