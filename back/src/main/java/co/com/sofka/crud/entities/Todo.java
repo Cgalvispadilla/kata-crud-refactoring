@@ -5,23 +5,10 @@ import javax.persistence.*;
 @Entity
 public class Todo {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private boolean completed;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="group_list_id")
-    private ListTodo groupListId;
-
-
-    public ListTodo getGroupListId() {
-        return groupListId;
-    }
-
-    public void setGroupListId(ListTodo groupListId) {
-        this.groupListId = groupListId;
-    }
-
     public Long getId() {
         return id;
     }

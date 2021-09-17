@@ -3,18 +3,21 @@ package co.com.sofka.crud.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Entity
-public class ListTodo {
+@Table(name = "categories_todos")
+public class CategoryTodo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_category")
     private Long id;
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "groupListId",cascade = CascadeType.ALL, orphanRemoval=true)
-    private List<Todo> todoList;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Todo> todoList = new ArrayList<>();
 
 
 
