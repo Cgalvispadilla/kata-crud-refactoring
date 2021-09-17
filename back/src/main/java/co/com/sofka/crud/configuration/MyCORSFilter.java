@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
-class MyCORSFilter implements Filter {
+public class MyCORSFilter implements Filter {
 
 
     @Override

@@ -36,7 +36,7 @@ public class CategoryTodoController {
         return listService.save(categoryTodoDTO);
     }
 
-    @PostMapping(value = "api/agregartodoList/{id}")
+    @PostMapping(value = "api/{id}/agregartodoList")
     @ResponseStatus(HttpStatus.CREATED)
     public TodoDTO saveTodoOnList(@Valid @RequestBody TodoDTO todoDTO, @PathVariable("id") long id, BindingResult result) {
         if(result.hasErrors()){
@@ -49,6 +49,10 @@ public class CategoryTodoController {
         categoryTodoDTO.getTodoList().add(todo);
         listService.save(categoryTodoDTO);
         return todoDTO;
+    }
+    @GetMapping("api/listarcategoria")
+    public Iterable<CategoryTodoDTO> listTodoOnCategory(){
+        return listService.list();
     }
     @GetMapping("api/obtenerlistatodo/{id}")
     public Iterable<TodoDTO> listTodoOnCategory(@PathVariable("id")long id){

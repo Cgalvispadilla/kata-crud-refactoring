@@ -34,9 +34,6 @@ public class CategoryTodoService implements InterfaceServiceCategoryTodo<Categor
         if(dto.getName()==null){
             throw new DuplicateKeyException("El nombre no puede estar vacio");
         }
-        if(repository.exists(Example.of(converter.convertToEntity(dto)))){
-            throw new DuplicateKeyException("Ya existe una categoria con el id "+dto.getId());
-        }
         CategoryTodo categoryTodo = converter.convertToEntity(dto);
         return converter.convertToDto(repository.save(categoryTodo));
     }

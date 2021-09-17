@@ -32,9 +32,6 @@ public class TodoService implements InterfaceServiceTodo<TodoDTO> {
         if(todoDTO.getName()==null){
             throw new DuplicateKeyException("EL nombre no puede estar vacio");
         }
-        if(repository.exists(Example.of(converter.convertToEntity(todoDTO)))){
-            throw new DuplicateKeyException("Ya existe un todo con el id "+todoDTO.getId());
-        }
         Todo todo = converter.convertToEntity(todoDTO);
         return converter.convertToDto(repository.save(todo));
     }
