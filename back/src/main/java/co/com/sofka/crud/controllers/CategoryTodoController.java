@@ -6,10 +6,13 @@ import co.com.sofka.crud.dto.TodoDTO;
 import co.com.sofka.crud.entities.Todo;
 import co.com.sofka.crud.services.CategoryTodoService;
 import co.com.sofka.crud.services.TodoService;
+import co.com.sofka.crud.utils.InvalidDataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,19 +28,26 @@ public class CategoryTodoController {
     private TodoConverter converterTodo;
 
     @PostMapping(value = "api/crearlista")
-    public CategoryTodoDTO save(@RequestBody CategoryTodoDTO categoryTodoDTO) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public CategoryTodoDTO saveCategory(@Valid @RequestBody CategoryTodoDTO categoryTodoDTO, BindingResult result) {
+       if(result.hasErrors()){
+           throw new InvalidDataException(result);
+       }
         return listService.save(categoryTodoDTO);
     }
 
     @PostMapping(value = "api/agregartodoList/{id}")
-    public TodoDTO saveTodoOnList(@RequestBody TodoDTO todoDTO, @PathVariable("id") long id) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public TodoDTO saveTodoOnList(@Valid @RequestBody TodoDTO todoDTO, @PathVariable("id") long id, BindingResult result) {
+        if(result.hasErrors()){
+            throw new InvalidDataException(result);
+        }
         CategoryTodoDTO categoryTodoDTO = listService.get(id);
         Todo todo = converterTodo.convertToEntity(todoDTO);
         List<Todo> t = new ArrayList<>();
         t.add(todo);
         categoryTodoDTO.getTodoList().add(todo);
         listService.save(categoryTodoDTO);
-        //todoService.save(todoDTO);
         return todoDTO;
     }
     @GetMapping("api/obtenerlistatodo/{id}")

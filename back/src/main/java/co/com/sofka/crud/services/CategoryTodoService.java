@@ -5,9 +5,12 @@ import co.com.sofka.crud.dto.CategoryTodoDTO;
 import co.com.sofka.crud.entities.CategoryTodo;
 import co.com.sofka.crud.repositories.CategoryTodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -28,6 +31,12 @@ public class CategoryTodoService implements InterfaceServiceCategoryTodo<Categor
 
     @Override
     public CategoryTodoDTO save(CategoryTodoDTO dto) {
+        if(dto.getName()==null){
+            throw new DuplicateKeyException("El nombre no puede estar vacio");
+        }
+        if(repository.exists(Example.of(converter.convertToEntity(dto)))){
+            throw new DuplicateKeyException("Ya existe una categoria con el id "+dto.getId());
+        }
         CategoryTodo categoryTodo = converter.convertToEntity(dto);
         return converter.convertToDto(repository.save(categoryTodo));
     }
@@ -40,6 +49,9 @@ public class CategoryTodoService implements InterfaceServiceCategoryTodo<Categor
     @Override
     public CategoryTodoDTO get(Long id) {
         Optional<CategoryTodo> optionalListTodo = repository.findById(id);
+        if(optionalListTodo.isEmpty()){
+            throw new NoSuchElementException("No se existe ninguna categoria con el id "+id);
+        }
         return  converter.convertToDto(optionalListTodo.get());
     }
 }

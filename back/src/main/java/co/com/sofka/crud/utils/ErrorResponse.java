@@ -1,11 +1,14 @@
 package co.com.sofka.crud.utils;
 
-import lombok.Data;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ErrorResponse {
     private int status;
 
