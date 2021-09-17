@@ -12,7 +12,6 @@ function ListCategories() {
   } = useContext(Store);
   const currentList = category.list;
 
-  //console.log(currentList);
   useEffect(() => {
     fetch(HOST_API + "/listarcategoria")
       .then((response) => response.json())
@@ -28,33 +27,40 @@ function ListCategories() {
       dispatch({ type: "delete-categoryList", id });
     });
   };
-  const algo = JSON.stringify(category.list[0]);
-  console.log(algo);
   return (
     <>
-      {currentList.map((categoryList, index) => {
-        return (
-          <div className="p-3 my-3 border" key={categoryList.id}>
-            <div className="d-flex justify-content-between mb-4">
-              <h4>
-                {categoryList.name ? categoryList.name.toUpperCase() : ""}
-              </h4>
-              <button
-                type="button"
-                className="btn btn-outline-danger btn-sm"
-                onClick={() => onDelete(categoryList.id)}
-              >
-                Eliminar
-              </button>
+      {currentList.length > 0 ? (
+        currentList.map((categoryList, index) => {
+          return (
+            <div
+              className="p-3 my-3 border border-primary rounded"
+              key={categoryList.id}
+            >
+              <div className="d-flex justify-content-between mb-4">
+                <h4>
+                  {categoryList.name ? categoryList.name.toUpperCase() : ""}
+                </h4>
+                <button
+                  type="button"
+                  className="btn btn-outline-danger btn-sm"
+                  onClick={() => onDelete(categoryList.id)}
+                >
+                  Eliminar
+                </button>
+              </div>
+              <FormTodo categoryListId={categoryList.id} />
+              <TablaTodo
+                categoryListId={categoryList.id}
+                todos={categoryList.todoList}
+              />
             </div>
-            <FormTodo categoryListId={categoryList.id} />
-            <TablaTodo
-              categoryListId={categoryList.id}
-              todos={categoryList.todoList}
-            />
-          </div>
-        );
-      })}
+          );
+        })
+      ) : (
+        <div className="form-inline justify-content-center">
+          No existe listas de tareas aún creadas
+        </div>
+      )}
     </>
   );
 }

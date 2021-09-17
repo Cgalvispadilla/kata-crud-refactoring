@@ -9,10 +9,8 @@ function App() {
       <div className="col-md-12 center">
         <FormCategory />
         <h3 className="form-inline justify-content-center">To-Do List</h3>
-        {/* <Form /> */}
         <ListCategories />
       </div>
-      <div className="form-inline justify-content-center">{/* <List /> */}</div>
     </StoreProvider>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import { Store } from "../../Store/Store";
-
+import validarCampos from "../../helpers/validation";
 const Form = ({ categoryListId }) => {
   const HOST_API = "http://localhost:8080/api";
   const formRef = useRef(null);
@@ -15,17 +15,6 @@ const Form = ({ categoryListId }) => {
 
   const [state, setState] = useState(item);
 
-  const validarCampos = (request) => {
-    var patt = new RegExp(/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/);
-    if (
-      request.name.length > 3 &&
-      request.name !== null &&
-      patt.test(request.name)
-    ) {
-      return true;
-    }
-    return false;
-  };
   const onAdd = (event) => {
     event.preventDefault();
 
