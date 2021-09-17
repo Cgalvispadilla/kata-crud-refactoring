@@ -1,25 +1,22 @@
-import React, {
-  useContext,
-  useRef,
-  useState,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Store } from "../../Store/Store";
 
-const HOST_API = "http://localhost:8080/api";
-
-const Form = () => {
+const Form = ({ categoryListId }) => {
+  const HOST_API = "http://localhost:8080/api";
   const formRef = useRef(null);
   const [errores, setErrores] = useState(null);
+
   const {
     dispatch,
-    state: { todo },
+    state: { editingCategoryTodo },
   } = useContext(Store);
-  const item = todo.item;
+
+  const item = editingCategoryTodo.todo;
+
   const [state, setState] = useState(item);
+
   const validarCampos = (request) => {
-    var patt = new RegExp(/^[A-Za-z0-9\s]+$/g);
+    var patt = new RegExp(/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/);
     if (
       request.name.length > 3 &&
       request.name !== null &&
@@ -37,12 +34,10 @@ const Form = () => {
       id: null,
       completed: false,
     };
-    console.log(request.name);
-
     try {
       setErrores(null);
       validarCampos(request)
-        ? fetch(HOST_API + "/todo", {
+        ? fetch(HOST_API + "/" + categoryListId + "/agregartodoList", {
             method: "POST",
             body: JSON.stringify(request),
             headers: {
@@ -51,8 +46,9 @@ const Form = () => {
           })
             .then((response) => response.json())
             .then((todo) => {
-              dispatch({ type: "add-item", item: todo });
+              dispatch({ type: "add-item", item: todo, id: categoryListId });
               setState({ name: "" });
+
               formRef.current.reset();
             })
         : setErrores("Ocurrio un error");
@@ -72,7 +68,7 @@ const Form = () => {
     try {
       setErrores(null);
       validarCampos(request)
-        ? fetch(HOST_API + "/todo", {
+        ? fetch(HOST_API + "/editartodoList/" + categoryListId, {
             method: "PUT",
             body: JSON.stringify(request),
             headers: {
@@ -81,7 +77,19 @@ const Form = () => {
           })
             .then((response) => response.json())
             .then((todo) => {
-              dispatch({ type: "update-item", item: todo });
+              dispatch({
+                type: "update-item",
+                updateTodo: todo,
+                idCategory: categoryListId,
+              });
+              dispatch({
+                type: "no edit",
+                editingCategoryTodo: {
+                  todo: { name: "" },
+                  categoryIdTodo: 0,
+                  isEdit: false,
+                },
+              });
               setState({ name: "" });
               formRef.current.reset();
             })
@@ -98,18 +106,24 @@ const Form = () => {
           name="name"
           className="form-control"
           placeholder="¿Qué piensas hacer hoy?"
-          defaultValue={item.name}
+          defaultValue={
+            editingCategoryTodo.categoryIdTodo === categoryListId
+              ? item.name
+              : ""
+          }
           onChange={(event) => {
             setState({ ...state, name: event.target.value });
           }}
         ></input>
       </div>
-      {item.id && (
-        <button className="btn btn-primary mb-2" onClick={onEdit}>
-          Actualizar
-        </button>
-      )}
-      {!item.id && (
+      {item.id &&
+        editingCategoryTodo.categoryIdTodo === categoryListId &&
+        editingCategoryTodo.isEdit && (
+          <button className="btn btn-primary mb-2" onClick={onEdit}>
+            Actualizar
+          </button>
+        )}
+      {editingCategoryTodo.categoryIdTodo !== categoryListId && (
         <button className="btn btn-primary mb-2" onClick={onAdd}>
           Crear
         </button>

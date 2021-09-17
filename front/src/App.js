@@ -1,18 +1,18 @@
 import React from "react";
-import Form from "./components/components_todo/formTodo";
 import { StoreProvider } from "./Providers/StoreProvider";
-import List from "./components/components_todo/TablaTodo";
+import FormCategory from "./components/components_category/FormCategory";
+import ListCategories from "./components/components_category/ListCategories";
 
 function App() {
   return (
     <StoreProvider>
       <div className="col-md-12 center">
+        <FormCategory />
         <h3 className="form-inline justify-content-center">To-Do List</h3>
-        <Form />
+        {/* <Form /> */}
+        <ListCategories />
       </div>
-      <div className="form-inline justify-content-center">
-        <List />
-      </div>
+      <div className="form-inline justify-content-center">{/* <List /> */}</div>
     </StoreProvider>
   );
 }

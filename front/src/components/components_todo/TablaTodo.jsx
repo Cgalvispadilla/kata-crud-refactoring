@@ -1,31 +1,26 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Store } from "../../Store/Store";
 const HOST_API = "http://localhost:8080/api";
-const List = () => {
-  const {
-    dispatch,
-    state: { todo },
-  } = useContext(Store);
-  const currentList = todo.list;
-
-  useEffect(() => {
-    fetch(HOST_API + "/todos")
-      .then((response) => response.json())
-      .then((list) => {
-        dispatch({ type: "update-list", list });
-      });
-  }, [dispatch]);
+const List = ({ categoryListId, todos = [] }) => {
+  const { dispatch } = useContext(Store);
 
   const onDelete = (id) => {
-    fetch(HOST_API + "/" + id + "/todo", {
+    fetch(HOST_API + "/" + categoryListId + "/eliminartodos/" + id, {
       method: "DELETE",
     }).then((list) => {
-      dispatch({ type: "delete-item", id });
+      dispatch({ type: "delete-item", idItem: id, idCategory: categoryListId });
     });
   };
 
   const onEdit = (todo) => {
-    dispatch({ type: "edit-item", item: todo });
+    dispatch({
+      type: "edit-item",
+      editingCategoryTodo: {
+        todo: todo,
+        categoryIdTodo: categoryListId,
+        isEdit: true,
+      },
+    });
   };
 
   const onChange = (event, todo) => {
@@ -34,7 +29,7 @@ const List = () => {
       id: todo.id,
       completed: event.target.checked,
     };
-    fetch(HOST_API + "/todo", {
+    fetch(HOST_API + "/editartodoList/" + categoryListId, {
       method: "PUT",
       body: JSON.stringify(request),
       headers: {
@@ -43,7 +38,11 @@ const List = () => {
     })
       .then((response) => response.json())
       .then((todo) => {
-        dispatch({ type: "update-item", item: todo });
+        dispatch({
+          type: "update-item",
+          updateTodo: todo,
+          idCategory: categoryListId,
+        });
       });
   };
 
@@ -55,17 +54,17 @@ const List = () => {
       <table className="table">
         <thead className="thead-dark">
           <tr>
-            <th scope="col">ID</th>
+            <th scope="col">#</th>
             <th scope="col">Tarea</th>
             <th scope="col">¿Completado?</th>
             <th scope="col">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {currentList.map((todo) => {
+          {todos.map((todo, index) => {
             return (
               <tr key={todo.id} style={todo.completed ? decorationDone : {}}>
-                <th scope="col">{todo.id}</th>
+                <th scope="col">{index + 1}</th>
                 <td>{todo.name}</td>
                 <td>
                   <input
