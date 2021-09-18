@@ -33,7 +33,7 @@ function ListCategories() {
         currentList.map((categoryList, index) => {
           return (
             <div
-              className="p-3 my-3 border border-primary rounded"
+              className="p-3 my-3 border shadow-sm p-3 mb-5 bg-white  rounded"
               key={categoryList.id}
             >
               <div className="d-flex justify-content-between mb-4">

@@ -61,37 +61,45 @@ const List = ({ categoryListId, todos = [] }) => {
           </tr>
         </thead>
         <tbody>
-          {todos.map((todo, index) => {
-            return (
-              <tr key={todo.id} style={todo.completed ? decorationDone : {}}>
-                <th scope="col">{index + 1}</th>
-                <td>{todo.name}</td>
-                <td>
-                  <input
-                    className="mx-5 p-6"
-                    type="checkbox"
-                    defaultChecked={todo.completed}
-                    onChange={(event) => onChange(event, todo)}
-                  ></input>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => onDelete(todo.id)}
-                  >
-                    Eliminar
-                  </button>
+          {todos.length > 0 ? (
+            todos.map((todo, index) => {
+              return (
+                <tr key={todo.id} style={todo.completed ? decorationDone : {}}>
+                  <th scope="col">{index + 1}</th>
+                  <td>{todo.name}</td>
+                  <td>
+                    <input
+                      className="mx-5 p-6"
+                      type="checkbox"
+                      defaultChecked={todo.completed}
+                      onChange={(event) => onChange(event, todo)}
+                    ></input>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => onDelete(todo.id)}
+                    >
+                      Eliminar
+                    </button>
 
-                  <button
-                    className="btn btn-warning m-1"
-                    onClick={() => onEdit(todo)}
-                  >
-                    Editar
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
+                    <button
+                      className="btn btn-warning m-1"
+                      onClick={() => onEdit(todo)}
+                    >
+                      Editar
+                    </button>
+                  </td>
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td className="text-center" colSpan="5">
+                No existen tareas aun creadas
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

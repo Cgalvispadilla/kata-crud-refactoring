@@ -52,6 +52,7 @@ function ListCategory() {
           name="name"
           placeholder="Nombre de la lista"
           defaultValue={item.name}
+          className="form-control"
           onChange={(event) => {
             setState({ ...state, name: event.target.value });
           }}
@@ -59,7 +60,7 @@ function ListCategory() {
       </div>
       <button
         type="button"
-        className="btn btn-outline-primary btn-sm ml-2"
+        className="btn btn-outline-dark ml-2"
         onClick={onAdd}
       >
         Nueva Lista
