@@ -1,4 +1,4 @@
-export const validarCampos = (request) => {
+const validarCampos = (request) => {
   var patt = new RegExp(/^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$/);
   if (
     request.name.length > 3 &&
@@ -9,3 +9,5 @@ export const validarCampos = (request) => {
   }
   return false;
 };
+
+export default validarCampos;
