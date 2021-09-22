@@ -68,7 +68,7 @@ public class CategoryTodoController {
             if (t.getId() == todo.getId()) {
                 t.setId(todo.getId());
                 t.setName(todo.getName());
-                t.setCompleted(t.isCompleted());
+                t.setCompleted(todo.isCompleted());
             }
         }
         listService.save(categoryTodoDTO);
