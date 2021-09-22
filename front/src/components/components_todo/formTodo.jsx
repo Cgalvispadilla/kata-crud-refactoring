@@ -52,7 +52,7 @@ const Form = ({ categoryListId }) => {
     const request = {
       name: state.name,
       id: item.id,
-      isCompleted: item.isCompleted,
+      completed: item.completed,
     };
     try {
       setErrores(null);

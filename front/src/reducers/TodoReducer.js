@@ -2,12 +2,9 @@ function reducer(state, action) {
   switch (action.type) {
     case "update-item":
       const todoUpItem = state.category;
-
       const listUpdateEdit = todoUpItem.list.map((category) => {
-        console.log(category);
         if (category.id === action.idCategory) {
           category.todoList = category.todoList.map((todo) => {
-            console.log(todo);
             if (todo.id === action.updateTodo.id) {
               todo = action.updateTodo;
             }
